@@ -17,14 +17,14 @@ btn.addEventListener('click', function(){
   var max = 100;
   var elements = 16;
   var randomNumbersCPU = randomArray(min, max, elements);
+  console.log(randomNumbersCPU);
 
   if (randomNumbersCPU) {
-
-    console.log(randomNumbersCPU);
 
     // chiedo all'utente di inserire 84 numeri da 1 a 100
     var randomNumbersUser = [];
     var number;
+    var bets = max - elements;
     var score = 0;
 
     var i = 1;
@@ -48,21 +48,25 @@ btn.addEventListener('click', function(){
         number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
       }
 
+      // aggiungo il numero scelto dall'utente nell'array randomNumbersUser in modo da controllarne l'esistenza al ciclo successivo
       randomNumbersUser.push(number);
 
-      // Se il numero non è presente nella lista dei numeri generati, incremento il punteggio
+      // Se il numero non è presente nella lista dei numeri generati dalla CPU, incremento il punteggio
       if (!inArray(randomNumbersCPU,number)) {
         score++;
-        // Se il numero è presente nella lista dei numeri generati, la partita termina
+        // Se il numero è presente nella lista dei numeri generati dalla CPU, la partita termina
       } else {
         alert("Hai beccato una mina!")
       }
       i++;
-    } while (i<=10 && !inArray(randomNumbersCPU,number));
+    } while (i<=bets && !inArray(randomNumbersCPU,number));
 
-    console.log(score);
-
-    result.innerHTML = "Hai totalizzato un punteggio di: " + score;
+    // se l'utente ha completato il Campo Minato, ovvero punteggio = scommesse
+    if (score == bets) {
+      result.innerHTML = "Congratulazioni! hai completato il campo minato.<br>Hai totalizzato il massimo punteggio: " + score;
+    } else {
+      result.innerHTML = "Hai totalizzato un punteggio di: " + score;
+    }
   } else {
     result.innerHTML = "Attenzione: i numeri consentiti sono minori degli elementi dell'array";
   }
