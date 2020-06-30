@@ -5,6 +5,11 @@
 // Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
 // La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
 // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
+// BONUS: (da fare solo se funziona tutto il resto)
+// all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali:
+// con difficoltà 0 => tra 1 e 100
+// con difficoltà 1 =>  tra 1 e 80
+// con difficoltà 2 => tra 1 e 50
 
 
 var btn = document.getElementById('btn');
@@ -12,15 +17,48 @@ var result = document.getElementById('result');
 
 btn.addEventListener('click', function(){
 
-  // genero un array di 16 numeri casuali tra 1 e 100
-  var min = 1;
-  var max = 100;
-  var elements = 16;
-  var randomNumbersCPU = randomArray(min, max, elements);
+  var level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+
+  // controllo che l'utente inserisca effettivamente un numero
+  while (isNaN(level)) {
+    alert("Attenzione: inserisci un numero");
+    level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+  }
+  // controllo che l'utente inserisca effettivamente un numero da 0 a 2
+  while (level<0 || level>2) {
+    alert("Attenzione: inserisci un numero da 0 a 2");
+    level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+  }
+console.log(level);
+
+  // genero un array di numeri casuali a seconda del livello scelto
+  switch (level) {
+    case 0:
+      var min = 1;
+      var max = 100;
+      var elements = 16;
+      // genero un array di 16 numeri casuali tra 1 e 100
+      var randomNumbersCPU = randomArray(min, max, elements);
+      break;
+    case 1:
+    // genero un array di 16 numeri casuali tra 1 e 80
+      var min = 1;
+      var max = 80;
+      var elements = 16;
+      var randomNumbersCPU = randomArray(min, max, elements);
+      break;
+    case 2:
+      // genero un array di 16 numeri casuali tra 1 e 50
+      var min = 1;
+      var max = 50;
+      var elements = 16;
+      var randomNumbersCPU = randomArray(min, max, elements);
+      break;
+  }
+
+  console.log(randomNumbersCPU);
 
   if (randomNumbersCPU) {
-
-    console.log(randomNumbersCPU);
 
     // chiedo all'utente di inserire 84 numeri da 1 a 100
     var randomNumbersUser = [];
