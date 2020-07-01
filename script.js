@@ -14,17 +14,18 @@ btn.addEventListener('click', function(){
 
   // genero un array di 16 numeri casuali tra 1 e 100
   var min = 1;
-  var max = 17;
+  var max = 100;
   var elements = 16;
   var attempts = max - elements;
   var randomNumbersCPU = randomArray(min, max, elements);
 
+  // se l'array è stato generato correttamente eseguo il programma
   if (randomNumbersCPU) {
 
     console.log(randomNumbersCPU);
 
     // chiedo all'utente di inserire 84 numeri da 1 a 100
-    var randomNumbersUser = [];
+    var attemptsUser = [];
     var number;
     var score = 0;
 
@@ -32,10 +33,10 @@ btn.addEventListener('click', function(){
     var found = false;
 
     // ciclo finchè ho raggiunto il numero massimo di tentativi e finchè non trovo una mina
-    while (randomNumbersUser.length < attempts && found == false) {
+    while (attemptsUser.length < attempts && found == false) {
       number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
       // se il numero inserito dall'utente è già presente nell'array lancio un alert ed esco dal ciclo
-      if (inArray(randomNumbersUser,number)) {
+      if (inArray(attemptsUser,number)) {
         alert("Attenzione: hai già inserito questo numero");
         // se il numero inserito dall'utente non è nel range lancio un alert ed esco dal ciclo
       } else if (!inRange(min, max, number)) {
@@ -46,7 +47,7 @@ btn.addEventListener('click', function(){
         found = true;
         // altrimenti dopo aver superato tutte le condizioni aggiungo il numero tra i numeri inseriti e incremento il punteggio e il contatore del ciclo
       } else if(inRange(min, max, number) && !inArray(randomNumbersCPU, number)) {
-        randomNumbersUser.push(number);
+        attemptsUser.push(number);
         score++;
         i++;
       }
@@ -73,12 +74,12 @@ btn.addEventListener('click', function(){
     //     number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
     //   }
     //   // controllo che l'utente non abbia inserito lo stesso numero
-    //   while (inArray(randomNumbersUser,number)) {
+    //   while (inArray(attemptsUser,number)) {
     //     alert("Attenzione: hai già inserito quel numero");
     //     number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
     //   }
     //
-    //   randomNumbersUser.push(number);
+    //   attemptsUser.push(number);
     //
     //   // Se il numero è presente nella lista dei numeri generati, la partita termina
     //   if (inArray(randomNumbersCPU,number)) {

@@ -28,7 +28,7 @@ btn.addEventListener('click', function(){
     alert("Attenzione: inserisci un numero da 0 a 2");
     level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
   }
-console.log(level);
+  console.log(level);
 
   // genero un array di numeri casuali a seconda del livello scelto
   switch (level) {
@@ -55,58 +55,50 @@ console.log(level);
       break;
   }
 
+  var attempts = max - elements;
+
   console.log(randomNumbersCPU);
 
+  // se l'array è stato generato correttamente eseguo il programma
   if (randomNumbersCPU) {
 
     // chiedo all'utente di inserire 84 numeri da 1 a 100
-    var randomNumbersUser = [];
+    var attemptsUser = [];
     var number;
-    var bets = max - elements;
     var score = 0;
 
     var i = 1;
-    do {
+    var found = false;
 
+    // ciclo finchè ho raggiunto il numero massimo di tentativi e finchè non trovo una mina
+    while (attemptsUser.length < attempts && found == false) {
       number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
-
-      // controllo che l'utente inserisca effettivamente un numero
-      while (!number || isNaN(number)) {
-        alert("Attenzione: inserisci un numero");
-        number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
-      }
-      // controllo che l'utente inserisca un numero tra il min e il max
-      while (number<min || number>max) {
+      // se il numero inserito dall'utente è già presente nell'array lancio un alert ed esco dal ciclo
+      if (inArray(attemptsUser,number)) {
+        alert("Attenzione: hai già inserito questo numero");
+        // se il numero inserito dall'utente non è nel range lancio un alert ed esco dal ciclo
+      } else if (!inRange(min, max, number)) {
         alert("Attenzione: inserisci un numero compreso tra " + min + " e " + max);
-        number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
-      }
-      // controllo che l'utente non abbia inserito lo stesso numero
-      while (inArray(randomNumbersUser,number)) {
-        alert("Attenzione: hai già inserito quel numero");
-        number = parseInt(prompt("Inserisci il " + i + " numero (da " + min + " a " + max + ")"));
-      }
-
-      // aggiungo il numero scelto dall'utente nell'array randomNumbersUser in modo da controllarne l'esistenza al ciclo successivo
-      randomNumbersUser.push(number);
-
-      // Se il numero non è presente nella lista dei numeri generati dalla CPU, incremento il punteggio
-      if (!inArray(randomNumbersCPU,number)) {
+        // Se il numero è una mina la partita termina
+      } else if (inArray(randomNumbersCPU, number)) {
+        alert("Hai beccato una mina!");
+        found = true;
+        // altrimenti dopo aver superato tutte le condizioni aggiungo il numero tra i numeri inseriti e incremento il punteggio e il contatore del ciclo
+      } else if(inRange(min, max, number) && !inArray(randomNumbersCPU, number)) {
+        attemptsUser.push(number);
         score++;
-        // Se il numero è presente nella lista dei numeri generati dalla CPU, la partita termina
-      } else {
-        alert("Hai beccato una mina!")
+        i++;
       }
-      i++;
-    } while (i<=bets && !inArray(randomNumbersCPU,number));
-
-    // se l'utente ha completato il Campo Minato, ovvero punteggio = scommesse
-    if (score == bets) {
-      result.innerHTML = "Congratulazioni! hai completato il campo minato.<br>Hai totalizzato il massimo punteggio: " + score;
-    } else {
-      result.innerHTML = "Hai totalizzato un punteggio di: " + score;
     }
+
+    if (score == attempts) {
+      result.innerHTML = "Hai vinto! Hai totalizzato un punteggio di: " + score;
+    } else {
+      result.innerHTML = "Hai perso. Hai totalizzato un punteggio di: " + score;
+    }
+
   } else {
-    result.innerHTML = "Attenzione: i numeri consentiti sono minori degli elementi dell'array";
+    result.innerHTML = "Attenzione: i tentativi sono minori o uguali alle mine";
   }
 
 });
@@ -122,10 +114,21 @@ function getRandomIntInclusive(min, max) {
 
 // funzione che controlla se un elemento è presente nell'array
 function inArray(array, element) {
-  for (var i = 0; i < array.length; i++) {
+  var i = 0;
+  var found = false;
+  while (i < array.length && found == false) {
     if(array[i] == element) {
-      return true;
+      found = true;
     }
+    i++;
+  }
+  return found;
+}
+
+// funzione che controlla se un numero sia nel range voluto
+function inRange(min, max, num) {
+  if(num >= min && num <= max && !isNaN(num)) {
+    return true;
   }
   return false;
 }
@@ -135,14 +138,13 @@ function randomArray(min, max, elements) {
   // controllo che i numeri consentiti siano maggiori degli elementi dell'array
   if (max-min >= elements-1) {
     var array = [];
-    var random = 0;
-    for (var i = 0; i < elements; i++) {
+    var random;
+    while (array.length < elements) {
       random = getRandomIntInclusive(min, max);
       // controllo che i numeri generati non siano duplicati
-      while (inArray(array,random)) {
-        random = getRandomIntInclusive(min, max);
+      if (!inArray(array,random)) {
+        array.push(random);
       }
-      array.push(random);
     }
     return array;
   } else {
