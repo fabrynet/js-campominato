@@ -46,7 +46,7 @@ btn.addEventListener('click', function(){
         alert("Hai beccato una mina!");
         found = true;
         // altrimenti dopo aver superato tutte le condizioni aggiungo il numero tra i numeri inseriti e incremento il punteggio e il contatore del ciclo
-      } else if(inRange(min, max, number) && !inArray(randomNumbersCPU, number)) {
+      } else {
         attemptsUser.push(number);
         score++;
         i++;
@@ -54,9 +54,9 @@ btn.addEventListener('click', function(){
     }
 
     if (score == attempts) {
-      result.innerHTML = "Hai vinto! Hai totalizzato un punteggio di: " + score;
+      result.innerHTML = "Hai vinto! Hai totalizzato " + score + " punti.";
     } else {
-      result.innerHTML = "Hai perso. Hai totalizzato un punteggio di: " + score;
+      result.innerHTML = "Hai perso. Hai totalizzato " + score + " punti.";
     }
 
     // do {

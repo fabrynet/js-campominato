@@ -16,19 +16,28 @@ var result = document.getElementById('result');
 
 btn.addEventListener('click', function(){
 
-  var level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+  var level;
+  var levelMin = 0;
+  var levelMax = 2;
 
-  // controllo che l'utente inserisca effettivamente un numero
-  while (isNaN(level)) {
-    alert("Attenzione: inserisci un numero");
+  // controllo che l'utente inserisca effettivamente un livello da 0 a 2
+  do {
     level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
-  }
-  // controllo che l'utente inserisca effettivamente un numero da 0 a 2
-  while (level<0 || level>2) {
-    alert("Attenzione: inserisci un numero da 0 a 2");
-    level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
-  }
-  console.log(level);
+    if (!inRange(levelMin, levelMax, level)) {
+      alert("Attenzione: inserisci un livello compreso tra " + levelMin + " e " + levelMax);
+    }
+  } while (!inRange(levelMin, levelMax, level));
+
+  // // controllo che l'utente inserisca effettivamente un numero
+  // while (isNaN(level)) {
+  //   alert("Attenzione: inserisci un numero");
+  //   level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+  // }
+  // // controllo che l'utente inserisca effettivamente un numero da 0 a 2
+  // while (level<0 || level>2) {
+  //   alert("Attenzione: inserisci un numero da 0 a 2");
+  //   level = parseInt(prompt("Scegli il livello di difficoltà (da 0 a 2)"));
+  // }
 
   // genero un array di numeri casuali a seconda del livello scelto
   switch (level) {
@@ -84,7 +93,7 @@ btn.addEventListener('click', function(){
         alert("Hai beccato una mina!");
         found = true;
         // altrimenti dopo aver superato tutte le condizioni aggiungo il numero tra i numeri inseriti e incremento il punteggio e il contatore del ciclo
-      } else if(inRange(min, max, number) && !inArray(randomNumbersCPU, number)) {
+      } else {
         attemptsUser.push(number);
         score++;
         i++;
@@ -92,9 +101,9 @@ btn.addEventListener('click', function(){
     }
 
     if (score == attempts) {
-      result.innerHTML = "Hai vinto! Hai totalizzato un punteggio di: " + score;
+      result.innerHTML = "Hai vinto! Hai totalizzato " + score + " punti.";
     } else {
-      result.innerHTML = "Hai perso. Hai totalizzato un punteggio di: " + score;
+      result.innerHTML = "Hai perso. Hai totalizzato " + score + " punti.";
     }
 
   } else {
