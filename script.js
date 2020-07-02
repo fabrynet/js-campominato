@@ -98,7 +98,47 @@ btn.addEventListener('click', function(){
 
 });
 
-// Funzioni
+// --------------------------- FUNCTIONS di avvio --------------------------- //
+
+// funzione che restituisce un array di numeri casuali, non ripetuti, dando come parametri valore min, valore max e numero elementi. Se i parametri non sono corretti restituisce false
+function randomArray(min, max, elements) {
+  // controllo che i numeri consentiti siano maggiori degli elementi dell'array
+  if (max-min >= elements-1) {
+    var array = [];
+    var random;
+    while (array.length < elements) {
+      random = getRandomIntInclusive(min, max);
+      // controllo che i numeri generati non siano duplicati
+      if (!inArray(array,random)) {
+        array.push(random);
+      }
+    }
+    return array;
+  } else {
+    return false;
+  }
+}
+
+// function randomArray(min, max, elements) {
+//   // controllo che i numeri consentiti siano maggiori degli elementi dell'array
+//   if (max-min >= elements-1) {
+//     var array = [];
+//     var random = 0;
+//     for (var i = 0; i < elements; i++) {
+//       random = getRandomIntInclusive(min, max);
+//       // controllo che i numeri generati non siano duplicati
+//       while (inArray(array,random)) {
+//         random = getRandomIntInclusive(min, max);
+//       }
+//       array.push(random);
+//     }
+//     return array;
+//   } else {
+//     return false;
+//   }
+// }
+
+// --------------------------- FUNCTIONS Utility --------------------------- //
 
 // funzione che genera un numero casuale compreso tra i due parametri min e max
 function getRandomIntInclusive(min, max) {
@@ -127,40 +167,3 @@ function inRange(min, max, num) {
   }
   return false;
 }
-
-// funzione che restituisce un array di numeri casuali, non ripetuti, dando come parametri valore min, valore max e numero elementi. Se i parametri non sono corretti restituisce false
-function randomArray(min, max, elements) {
-  // controllo che i numeri consentiti siano maggiori degli elementi dell'array
-  if (max-min >= elements-1) {
-    var array = [];
-    var random;
-    while (array.length < elements) {
-      random = getRandomIntInclusive(min, max);
-      // controllo che i numeri generati non siano duplicati
-      if (!inArray(array,random)) {
-        array.push(random);
-      }
-    }
-    return array;
-  } else {
-    return false;
-  }
-}
-// function randomArray(min, max, elements) {
-//   // controllo che i numeri consentiti siano maggiori degli elementi dell'array
-//   if (max-min >= elements-1) {
-//     var array = [];
-//     var random = 0;
-//     for (var i = 0; i < elements; i++) {
-//       random = getRandomIntInclusive(min, max);
-//       // controllo che i numeri generati non siano duplicati
-//       while (inArray(array,random)) {
-//         random = getRandomIntInclusive(min, max);
-//       }
-//       array.push(random);
-//     }
-//     return array;
-//   } else {
-//     return false;
-//   }
-// }
